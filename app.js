@@ -12,6 +12,7 @@ import { getShuffledOptions, getResult } from './game.js';
 import {
   CHALLENGE_COMMAND,
   TEST_COMMAND,
+  BETTERTEST_COMMAND,
   HasGuildCommands,
 } from './commands.js';
 
@@ -57,6 +58,18 @@ app.post('/interactions', async function (req, res) {
         },
       });
     }
+
+    if (name === 'bettertest') {
+      // Send a message into the channel where command was triggered from
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          // Fetches a random emoji to send from a helper function
+          content: 'whatsup ' + getRandomEmoji(),
+        },
+      });
+    }
+
     // "challenge" guild command
     if (name === 'challenge' && id) {
       const userId = req.body.member.user.id;
@@ -182,5 +195,6 @@ app.listen(PORT, () => {
   HasGuildCommands(process.env.APP_ID, process.env.GUILD_ID, [
     TEST_COMMAND,
     CHALLENGE_COMMAND,
+    BETTERTEST_COMMAND
   ]);
 });
